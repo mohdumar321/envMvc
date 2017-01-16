@@ -23,7 +23,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("net.codejava.spring")
 @EnableTransactionManagement
 public class ApplicationContextConfig {
-   
+   String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+String username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+String url = "jdbc:mysql://" 
+              + host
+              + ":" 
+              + port
+              + "/sampledb";
 	
 	@Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {
@@ -38,9 +46,9 @@ public class ApplicationContextConfig {
     public DataSource getDataSource() {
     	BasicDataSource dataSource = new BasicDataSource();
     	dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    	dataSource.setUrl("jdbc:mysql://localhost:3306/userdb");
-    	dataSource.setUsername("root");
-    	dataSource.setPassword("root");
+    	dataSource.setUrl(url);
+    	dataSource.setUsername(username);
+    	dataSource.setPassword(password);
     	
     	return dataSource;
     }
